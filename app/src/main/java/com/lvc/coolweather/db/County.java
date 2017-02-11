@@ -1,11 +1,13 @@
 package com.lvc.coolweather.db;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by lvc on 2017/2/11.
  * 县级 实体类
  */
 
-public class County {
+public class County extends DataSupport{
 
     private int id;
     private String countyName;

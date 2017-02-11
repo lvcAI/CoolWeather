@@ -1,10 +1,12 @@
 package com.lvc.coolweather.db;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by lvc on 2017/2/11.
  */
 
-public class Province {
+public class Province extends DataSupport {
 
     private int id;
     private String provinveName; //省名称

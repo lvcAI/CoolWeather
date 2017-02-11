@@ -1,11 +1,13 @@
 package com.lvc.coolweather.db;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by lvc on 2017/2/11.
  * 城市 实体类
  */
 
-public class City {
+public class City extends DataSupport {
 
     private int id;
     private String cityName;
