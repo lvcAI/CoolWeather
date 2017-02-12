@@ -2,9 +2,13 @@ package com.lvc.coolweather;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.SharedPreferencesCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.request.target.SquaringDrawable;
 import com.lvc.coolweather.db.City;
 import com.lvc.coolweather.db.County;
 import com.lvc.coolweather.db.Province;
@@ -91,12 +96,21 @@ public class ChooseAreaFragment extends Fragment {
                 }
                 else if(currentLevel == LEVEL_COUNTY){
                     String weatherId = countyList.get(position).getWeatherId();
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                    editor.putString("weather_id",weatherId);
+                    editor.apply();
                     if(getActivity() instanceof MainActivity){
                         Intent intent = new Intent(getActivity(),WeatherActivity.class);
                         intent.putExtra("weather_id",weatherId);
                         startActivity(intent);
                         getActivity().finish();
 
+                    }else if (getActivity() instanceof  WeatherActivity){
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.drawerLayout.closeDrawers();
+                        activity.swipeRefresh.setRefreshing(true);
+                        activity.requestWeaher(weatherId);
+                        Log.d("侧滑切换城市", "onItemClick: "+weatherId);
                     }
                 }
 
