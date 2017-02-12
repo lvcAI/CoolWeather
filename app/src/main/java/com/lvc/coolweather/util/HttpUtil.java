@@ -1,5 +1,7 @@
 package com.lvc.coolweather.util;
 
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -16,6 +18,7 @@ public class HttpUtil {
      */
     public static void sendOkhttpRequest(String address,okhttp3.Callback callback){
         OkHttpClient client = new OkHttpClient();
+        Log.i("测试address：", "sendOkhttpRequest: "+address);
         Request request = new Request.Builder().url(address).build();
         client.newCall(request).enqueue(callback);
     }

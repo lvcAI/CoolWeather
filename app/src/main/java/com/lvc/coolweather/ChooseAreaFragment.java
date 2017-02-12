@@ -20,6 +20,7 @@ import com.lvc.coolweather.util.HttpUtil;
 import com.lvc.coolweather.util.Utility;
 
 import org.litepal.crud.DataSupport;
+import org.litepal.tablemanager.Connector;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,16 +85,28 @@ public class ChooseAreaFragment extends Fragment {
                     queryCities();
                 }else if(currentLevel == LEVEL_CITY){
                     selectedCity = cityList.get(position);
-                    queryCities();
-                }else if(currentLevel == LEVEL_COUNTY){
-                    String weatherId = countyList.get(position).getWeatherId();
-                   /* if(getActivity() instanceof MainActivity){
-
-                    }*/
+                    queryCounties();
                 }
+               /* else if(currentLevel == LEVEL_COUNTY){
+                    String weatherId = countyList.get(position).getWeatherId();
+                    if(getActivity() instanceof MainActivity){
+
+                    }
+                }*/
 
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentLevel == LEVEL_COUNTY) {
+                    queryCities();
+                } else if (currentLevel == LEVEL_CITY) {
+                    queryProvinces();
+                }
+            }
+        });
+        Connector.getDatabase();
         queryProvinces();
     }
 
@@ -110,7 +123,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel = LEVEL_PROVINCE;
         }else {
-            String  address = "http://guolin.tech/api/china";
+            String  address = "http://guolin.tech/api/china/";
             queryFromServer(address,"province");
         }
     }
@@ -128,7 +141,7 @@ public class ChooseAreaFragment extends Fragment {
             currentLevel = LEVEL_CITY;
         }else {
             int provinceCode = selectedProvince.getProvinveCode();
-            String address = "http://guolin.tech.api/china"+provinceCode;
+            String address = "http://guolin.tech/api/china/"+provinceCode;
             queryFromServer(address,"city");
         }
 
@@ -137,7 +150,7 @@ public class ChooseAreaFragment extends Fragment {
     private void queryCounties(){
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
-        countyList = DataSupport.where("cityId = ?",String .valueOf(selectedCity.getId())).find(County.class);
+        countyList = DataSupport.where("cityId = ?",String .valueOf(selectedCity.getCitycode())).find(County.class);
         if (countyList.size() > 0){
             dataList.clear();
             for (County county: countyList){
@@ -149,7 +162,7 @@ public class ChooseAreaFragment extends Fragment {
         }else {
             int provinceCode = selectedProvince.getProvinveCode();
             int cityCode = selectedCity.getCitycode();
-            String address = "http://guolin.tech.api/china"+provinceCode+"/"+cityCode;
+            String address = "http://guolin.tech/api/china/"+provinceCode+"/"+cityCode;
             queryFromServer(address,"county");
         }
 
@@ -179,7 +192,7 @@ public class ChooseAreaFragment extends Fragment {
                 }else if ("city".equals(type)){
                     result = Utility.handleCityResponse(responseText,selectedProvince.getId());
                 }else if ("county".equals(type)){
-                    result = Utility.handleCountyResponse(responseText,selectedCity.getId());
+                    result = Utility.handleCountyResponse(responseText,selectedCity.getCitycode());
                 }
                 if (result){
                     getActivity().runOnUiThread(new Runnable() {
@@ -189,9 +202,9 @@ public class ChooseAreaFragment extends Fragment {
                             if ("province".equals(type)){
                                 queryProvinces();
                             }else if ("city".equals(type)){
-                                queryProvinces();
+                                queryCities();
                             }else if ("county".equals(type)){
-                                queryProvinces();
+                                queryCounties();
                             }
                         }
                     });

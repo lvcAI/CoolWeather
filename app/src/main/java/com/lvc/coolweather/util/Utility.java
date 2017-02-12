@@ -1,6 +1,7 @@
 package com.lvc.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.lvc.coolweather.db.City;
 import com.lvc.coolweather.db.County;
@@ -75,6 +76,7 @@ public class Utility {
      */
     public static boolean handleCountyResponse(String response,int cityId){
         if (!TextUtils.isEmpty(response)){
+         //   Log.d("测试返回数据：", ""+response);
             try {
                 JSONArray allCounties =new JSONArray(response);
                 for(int i=0;i<allCounties.length();i++){
