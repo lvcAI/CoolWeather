@@ -18,4 +18,12 @@ public class Now {
         @SerializedName("txt")
         public String info;
     }
+
+    @Override
+    public String toString() {
+        return "Now{" +
+                "temperature='" + temperature + '\'' +
+                ", more=" + more +
+                '}';
+    }
 }

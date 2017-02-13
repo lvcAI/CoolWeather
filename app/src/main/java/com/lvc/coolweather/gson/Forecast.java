@@ -28,4 +28,13 @@ public class Forecast {
         @SerializedName("txt_d")
         public String info;
     }
+
+    @Override
+    public String toString() {
+        return "Forecast{" +
+                "date='" + date + '\'' +
+                ", temperature=" + temperature +
+                ", more=" + more +
+                '}';
+    }
 }

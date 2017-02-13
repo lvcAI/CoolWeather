@@ -31,4 +31,13 @@ public class Suggestion {
         @SerializedName("txt")
         public String info;
     }
+
+    @Override
+    public String toString() {
+        return "Suggestion{" +
+                "comfort=" + comfort +
+                ", carWash=" + carWash +
+                ", sport=" + sport +
+                '}';
+    }
 }

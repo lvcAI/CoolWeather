@@ -18,4 +18,16 @@ public class Weather {
     public Suggestion suggestion;
     @SerializedName("daily_forecast")
     public List<Forecast> forecastList;
+
+    @Override
+    public String toString() {
+        return "Weather{" +
+                "status='" + status + '\'' +
+                ", basic=" + basic +
+                ", aqi=" + aqi +
+                ", now=" + now +
+                ", suggestion=" + suggestion +
+                ", forecastList=" + forecastList +
+                '}';
+    }
 }
